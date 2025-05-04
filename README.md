@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enhanced Clock & Stopwatch</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
@@ -14,7 +14,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Orbitron', sans-serif;
       background: linear-gradient(135deg, #2c5364, #203a43, #0f2027);
@@ -24,7 +23,6 @@
       align-items: center;
       height: 100vh;
     }
-
     .container {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
@@ -35,13 +33,11 @@
       width: 90%;
       max-width: 500px;
     }
-
     h1 {
       font-size: 1.8rem;
       color: #00fff0;
       margin-bottom: 15px;
     }
-
     .time-display {
       font-size: 2.5rem;
       margin: 10px 0 30px;
@@ -51,7 +47,6 @@
       border-radius: 12px;
       box-shadow: inset 0 0 10px #00000040;
     }
-
     .buttons button {
       margin: 10px 10px;
       padding: 12px 25px;
@@ -65,7 +60,6 @@
       transition: 0.3s;
       box-shadow: 0 4px 10px rgba(0, 173, 181, 0.5);
     }
-
     .buttons button:hover {
       transform: translateY(-3px);
       background: #00ffe1;
@@ -75,15 +69,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>🕒 Digital Clock</h1>
+    <h1>Digital Clock</h1>
     <div id="clock" class="time-display">00:00:00</div>
 
-    <h1>⏱️ Stopwatch</h1>
+    <h1>Stopwatch</h1>
     <div id="stopwatch" class="time-display">00:00:00</div>
 
     <div class="buttons">
       <button id="start">Start</button>
-      <button id="stop">Stop</button>
+      <button id="pause">Pause</button>
       <button id="reset">Reset</button>
     </div>
   </div>
@@ -101,6 +95,7 @@
     // Stopwatch
     let stopwatchInterval = null;
     let [hours, minutes, seconds] = [0, 0, 0];
+    let paused = false;
 
     function updateStopwatch() {
       seconds++;
@@ -113,29 +108,33 @@
         hours++;
       }
 
-      const display =
-        String(hours).padStart(2, '0') + ':' +
-        String(minutes).padStart(2, '0') + ':' +
-        String(seconds).padStart(2, '0');
-      document.getElementById('stopwatch').textContent = display;
+      document.getElementById("stopwatch").textContent =
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
     }
 
-    document.getElementById('start').addEventListener('click', () => {
+    document.getElementById("start").addEventListener("click", () => {
       if (!stopwatchInterval) {
         stopwatchInterval = setInterval(updateStopwatch, 1000);
+        paused = false;
       }
     });
 
-    document.getElementById('stop').addEventListener('click', () => {
-      clearInterval(stopwatchInterval);
-      stopwatchInterval = null;
+    document.getElementById("pause").addEventListener("click", () => {
+      if (!paused) {
+        clearInterval(stopwatchInterval);
+        stopwatchInterval = null;
+        paused = true;
+      }
     });
 
-    document.getElementById('reset').addEventListener('click', () => {
+    document.getElementById("reset").addEventListener("click", () => {
       clearInterval(stopwatchInterval);
       stopwatchInterval = null;
       [hours, minutes, seconds] = [0, 0, 0];
-      document.getElementById('stopwatch').textContent = '00:00:00';
+      document.getElementById("stopwatch").textContent = "00:00:00";
+      paused = false;
     });
   </script>
 </body>
